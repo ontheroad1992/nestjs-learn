@@ -14,7 +14,7 @@ export class AllExceptionFiliter implements ExceptionFilter {
         // 判断是不是由 HttpException 抛出的异常
         if (exception instanceof HttpException) {
             status = exception.getStatus();
-            message = exception.message.error;
+            message = exception.message.message;
             code = exception.message.code || code;
         }
 

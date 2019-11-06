@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, HttpCode } from '@nestjs/common';
+import { Controller, Post, Body, Get, HttpCode, Param, ParseIntPipe } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
 import { User } from './interfaces/user.interfaces';
@@ -16,5 +16,10 @@ export class UserController {
     @Get()
     async findAll(): Promise<User[]> {
         return this.userServer.findAll();
+    }
+
+    @Get(':id')
+    findOne(@Param('id', new ParseIntPipe()) id) {
+        return id;
     }
 }

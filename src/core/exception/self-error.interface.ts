@@ -1,4 +1,4 @@
 export interface SelfError {
-    code: number;
-    error: string;
+    code?: number;
+    message: string;
 }
