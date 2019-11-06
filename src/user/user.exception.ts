@@ -1,13 +1,9 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
-
-interface CustomizeError {
-    code: number;
-    error: string;
-}
+import { SelfError } from '../exception/self-error.interface';
 
 export class UserException extends HttpException {
     constructor(
-        userError: CustomizeError = {
+        userError: SelfError = {
             code: 20000,
             error: '请求错误',
         },

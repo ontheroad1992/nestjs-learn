@@ -1,6 +1,6 @@
 import { Injectable, ForbiddenException } from '@nestjs/common';
 import { User } from './interfaces/user.interfaces';
-import { UserException } from 'src/exception/self-error';
+import { UserException } from './user.exception';
 
 @Injectable()
 export class UserService {
