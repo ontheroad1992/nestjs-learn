@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { SelfError } from '../exception/self-error.interface';
+import { SelfError } from '../core/exception/self-error.interface';
 
 export class UserException extends HttpException {
     constructor(
