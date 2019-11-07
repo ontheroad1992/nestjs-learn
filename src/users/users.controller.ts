@@ -2,6 +2,7 @@ import { Controller, Post, Body, Get, HttpCode, Param, ParseIntPipe } from '@nes
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
 import { User } from './interfaces/user.interfaces';
+import { Roles } from 'src/core/decorator/roles.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -9,6 +10,7 @@ export class UsersController {
 
     @Post()
     @HttpCode(201)
+    @Roles('user')
     async create(@Body() createUserDto: CreateUserDto) {
         this.userServer.create(createUserDto);
     }
