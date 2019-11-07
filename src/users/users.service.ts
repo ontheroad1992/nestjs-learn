@@ -1,8 +1,8 @@
-import { Injectable, ForbiddenException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { User } from './interfaces/user.interfaces';
 
 @Injectable()
-export class UserService {
+export class UsersService {
     private readonly users: User[] = [];
 
     public create(user: User) {

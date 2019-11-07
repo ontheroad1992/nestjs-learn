@@ -1,11 +1,11 @@
 import { Controller, Post, Body, Get, HttpCode, Param, ParseIntPipe } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UserService } from './user.service';
+import { UsersService } from './users.service';
 import { User } from './interfaces/user.interfaces';
 
-@Controller('user')
-export class UserController {
-    constructor(private readonly userServer: UserService) {}
+@Controller('users')
+export class UsersController {
+    constructor(private readonly userServer: UsersService) {}
 
     @Post()
     @HttpCode(201)
