@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
+import { JwtService } from '@nestjs/jwt';
 
 export type User = any;
 
@@ -7,7 +8,7 @@ export type User = any;
 export class AuthService {
     private readonly users: User[];
 
-    constructor(private readonly userService: UsersService) {}
+    constructor(private readonly userService: UsersService, private readonly jwtService: JwtService) {}
 
     async findOne(username: string): Promise<User | undefined> {
         return this.users.find(user => user.username === username);
@@ -20,5 +21,12 @@ export class AuthService {
             return result;
         }
         return null;
+    }
+
+    async login(user: any) {
+        const payload = { username: user.username, sub: user.userId };
+        return {
+            access_token: this.jwtService.sign(payload),
+        };
     }
 }

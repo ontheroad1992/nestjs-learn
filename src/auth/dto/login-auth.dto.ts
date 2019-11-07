@@ -7,4 +7,8 @@ export class LoginAuthDto {
     @IsString({ message: '密码必须是字符串类型' })
     @Length(6, 18, { message: '密码长度必须是 6 - 18 位' })
     readonly password: string;
+
+    @IsString({ message: '验证码必须是字符串类型' })
+    @Length(6, 6, { message: '密码长度必须是 6 位' })
+    readonly smsCode?: string;
 }
