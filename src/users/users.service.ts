@@ -22,6 +22,11 @@ export class UsersService {
                 username: 'maria',
                 password: 'guess',
             },
+            {
+                userId: 4,
+                username: 'pengshba',
+                password: '123456',
+            },
         ];
     }
 

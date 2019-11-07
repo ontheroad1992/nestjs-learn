@@ -1,4 +1,4 @@
-import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { INestApplication } from '@nestjs/common';
 import { logger } from './middleware/logger.middleware';
 import { AllExceptionFiliter } from './exception/all-filiter.exception';
 import { validationPip } from './pipe/validation.pipe';
