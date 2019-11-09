@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { User } from './interfaces/user.interfaces';
+import { UserException } from './users.exception';
 
 @Injectable()
 export class UsersService {
@@ -28,6 +29,20 @@ export class UsersService {
                 password: '123456',
             },
         ];
+    }
+
+    /**
+     * 校验用户是否正确
+     * @param username string 用户名
+     * @param pass string 密码
+     */
+    async validateUser(username: string, pass: string): Promise<any> {
+        const user = await this.findOne(username);
+        if (user && user.password === pass) {
+            const { password, ...result } = user;
+            return result;
+        }
+        throw new UserException({ code: 20001, message: '登录失败' });
     }
 
     async findOne(username: string): Promise<User | undefined> {

@@ -5,7 +5,7 @@ export class UserException extends HttpException {
     constructor(
         userError: SelfError = {
             code: 20000,
-            message: '请求错误',
+            message: '用户操作异常',
         },
         status: number = HttpStatus.BAD_REQUEST,
     ) {
