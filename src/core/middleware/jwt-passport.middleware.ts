@@ -1,8 +1,8 @@
 import { Response, NextFunction, Request } from 'express';
-import { jwtConstants } from 'src/auth/constants';
 import { JwtService } from '@nestjs/jwt';
 import { JwtRequest } from './interface/jwt-request.interface';
 import { TokenException } from '../exception/token.exception';
+import { jwtConstants } from '../config/constants';
 
 const jwtService = new JwtService({
     secret: jwtConstants.secret,
