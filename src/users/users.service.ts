@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { User } from './interfaces/user.interfaces';
+import { User, UserValidateResult } from './interfaces/user.interfaces';
 import { UserException } from './users.exception';
 
 @Injectable()
@@ -9,22 +9,22 @@ export class UsersService {
     constructor() {
         this.users = [
             {
-                userId: 1,
+                user_id: 1,
                 username: 'john',
                 password: 'changeme',
             },
             {
-                userId: 2,
+                user_id: 2,
                 username: 'chris',
                 password: 'secret',
             },
             {
-                userId: 3,
-                username: 'maria',
-                password: 'guess',
+                user_id: 3,
+                username: '17612732670',
+                password: '123456',
             },
             {
-                userId: 4,
+                user_id: 4,
                 username: 'pengshba',
                 password: '123456',
             },
@@ -36,7 +36,7 @@ export class UsersService {
      * @param username string 用户名
      * @param pass string 密码
      */
-    async validateUser(username: string, pass: string): Promise<any> {
+    async validateUser(username: string, pass: string): Promise<UserValidateResult> {
         const user = await this.findOne(username);
         if (user && user.password === pass) {
             const { password, ...result } = user;
@@ -49,7 +49,7 @@ export class UsersService {
         return this.users.find(user => user.username === username);
     }
 
-    public create(user: User) {
+    public create(user: any) {
         this.users.push(user);
     }
 

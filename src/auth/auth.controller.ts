@@ -2,7 +2,9 @@ import { Controller, Post, Body, Get, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { Roles } from 'src/core/decorator/roles.decorator';
-import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiUseTags, ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { Request } from 'express';
+import { TokenResult } from './interfaces/login.interfaces';
 
 @ApiUseTags('auth')
 @ApiBearerAuth()
@@ -11,8 +13,20 @@ export class AuthController {
     constructor(private readonly authServer: AuthService) {}
 
     @Post('login')
-    async login(@Body() loginAuthDto: LoginAuthDto) {
-        return this.authServer.login(loginAuthDto);
+    @ApiOperation({ title: '用户登录' })
+    @ApiResponse({
+        status: 200,
+        description: '登录的账户令牌和刷新令牌，以及一些其他参数',
+    })
+    async login(@Body() loginAuthDto: LoginAuthDto): Promise<TokenResult> {
+        const data = await this.authServer.login(loginAuthDto);
+        return data;
+    }
+
+    @ApiOperation({ title: '获取 XSRF-TOKEN 令牌' })
+    @Get('csrf')
+    async csrfToken(@Req() req: Request) {
+        return { 'XSRF-TOKEN': req.csrfToken() };
     }
 
     @Roles('user')
