@@ -6,6 +6,8 @@ import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
 import { Request, Response, NextFunction } from 'express';
 
+const XSRF_TOKEN: string = 'XSRF-TOKEN';
+
 export function safeOptions(app: INestApplication) {
     /** HTTP 头部安全设置 */
     app.use(helmet());
@@ -14,9 +16,11 @@ export function safeOptions(app: INestApplication) {
     /** CSRF 防护 */
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(cookieParser());
-    app.use(csurf({ cookie: true }));
+    app.use(csurf({ cookie: true, value: (req) => {
+        return req.cookies[XSRF_TOKEN];
+    } }));
     app.use((req: Request, res: Response, next: NextFunction) => {
-        res.cookie('XSRF-TOKEN', req.csrfToken());
+        res.cookie(XSRF_TOKEN, req.csrfToken());
         next();
     });
     /** 限速 */
