@@ -1,4 +1,4 @@
-import { IsString, Length, IsOptional, IsEnum } from 'class-validator';
+import { IsString, Length, IsOptional, IsEnum, Matches } from 'class-validator';
 import { ApiModelProperty } from '@nestjs/swagger';
 
 enum VerifyTypes {
@@ -11,11 +11,12 @@ enum VerifyTypes {
 }
 
 export class LoginAuthDto {
-    @ApiModelProperty()
+    @ApiModelProperty({ description: '账户名必须是手机号且为字符串类型' })
+    @Matches(/^1[3456789]\d{9}$/, { message: '手机格式不正确' })
     @IsString({ message: '账户名必须是字符串类型' })
     readonly username: string;
 
-    @ApiModelProperty()
+    @ApiModelProperty({ description: '密码长度必须是 6 - 18 位' })
     @IsString({ message: '密码必须是字符串类型' })
     @Length(6, 18, { message: '密码长度必须是 6 - 18 位' })
     readonly password: string;
@@ -25,6 +26,7 @@ export class LoginAuthDto {
     @IsOptional()
     readonly verifyType?: VerifyTypes;
 
+    @ApiModelProperty({ description: '验证码长度必须是 6 位' })
     @IsString({ message: '验证码必须是字符串类型' })
     @Length(6, 6, { message: '验证码长度必须是 6 位' })
     @IsOptional()
