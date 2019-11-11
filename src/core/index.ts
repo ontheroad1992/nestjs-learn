@@ -4,8 +4,12 @@ import { AllExceptionFiliter } from './exception/all-filiter.exception';
 import { validationPip } from './pipe/validation.pipe';
 import { RolesGuard } from './guard/roles.guard';
 import { jwtPassport } from './middleware/jwt-passport.middleware';
+import { swaggerOptions } from './swagger/swagger.options';
+
 
 export function core(app: INestApplication): void {
+    /** swagger */
+    swaggerOptions(app);
     /** 日志中间件 */
     app.use(logger);
     /** 令牌解析 */

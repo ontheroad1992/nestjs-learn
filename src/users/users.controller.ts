@@ -2,7 +2,9 @@ import { Controller, Post, Body, Get, HttpCode, Param, ParseIntPipe } from '@nes
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
 import { User } from './interfaces/user.interfaces';
+import { ApiUseTags } from '@nestjs/swagger';
 
+@ApiUseTags('users')
 @Controller('users')
 export class UsersController {
     constructor(private readonly userServer: UsersService) {}
