@@ -23,12 +23,6 @@ export class AuthController {
         return data;
     }
 
-    @ApiOperation({ title: '获取 XSRF-TOKEN 令牌' })
-    @Get('csrf')
-    async csrfToken(@Req() req: Request) {
-        return { 'XSRF-TOKEN': req.csrfToken() };
-    }
-
     @Roles('user')
     @Get('test')
     testAuth(@Req() req) {
