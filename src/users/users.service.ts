@@ -20,7 +20,7 @@ export class UsersService {
      * @param pass string 密码
      */
     async validateUser(username: string, pass: string): Promise<UserValidateResult> {
-        const user = await this.findOne(username);
+        const user = await this.findUserFromUsername(username);
         if (user && user.password === pass) {
             const { password, ...result } = user;
             return result;
@@ -28,18 +28,22 @@ export class UsersService {
         throw new UserException({ code: 20001, message: '登录失败' });
     }
 
-    async findOne(username: string): Promise<User | undefined> {
-        return this.users.find(user => user.username === username);
-    }
-
     public async create(username: string, password: string): Promise<any> {
+        // const user = await this.findOne(username);
         const users = new Users();
         users.username = username;
         users.password = password;
         await this.usersRepository.save(users);
     }
 
-    public async findAll(): Promise<User[]> {
-        return this.users;
+    public async findUserFromUsername(username: string): Promise<any> {
+        const result = await this.usersRepository.findOne({
+            where: { username },
+        });
+        return result;
+    }
+
+    public async findAll(): Promise<any> {
+        return this.usersRepository.findAndCount();
     }
 }

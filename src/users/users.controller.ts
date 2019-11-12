@@ -3,6 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
 import { User } from './interfaces/user.interfaces';
 import { ApiUseTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { FindUserDto } from './dto/find-user.dto';
 
 @ApiUseTags('users')
 @Controller('users')
@@ -21,13 +22,14 @@ export class UsersController {
         await this.usersServer.create(username, password);
     }
 
-    @Get()
-    async findAll(): Promise<User[]> {
-        return this.usersServer.findAll();
-    }
-
-    @Get(':id')
-    findOne(@Param('id', new ParseIntPipe()) id) {
-        return id;
+    @Post('/check')
+    @ApiOperation({ title: '检查用户是否被注册过' })
+    @ApiResponse({
+        status: 200,
+        description: '',
+    })
+    check(@Body() findUserDto: FindUserDto) {
+        const username = findUserDto.username;
+        return this.usersServer.findUserFromUsername(username);
     }
 }
