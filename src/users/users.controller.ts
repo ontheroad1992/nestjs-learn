@@ -2,22 +2,28 @@ import { Controller, Post, Body, Get, HttpCode, Param, ParseIntPipe } from '@nes
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
 import { User } from './interfaces/user.interfaces';
-import { ApiUseTags } from '@nestjs/swagger';
+import { ApiUseTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @ApiUseTags('users')
 @Controller('users')
 export class UsersController {
-    constructor(private readonly userServer: UsersService) {}
+    constructor(private readonly usersServer: UsersService) {}
 
     @Post()
     @HttpCode(201)
+    @ApiOperation({ title: '用户注册' })
+    @ApiResponse({
+        status: 201,
+        description: '',
+    })
     async create(@Body() createUserDto: CreateUserDto) {
-        this.userServer.create(createUserDto);
+        const { username, password } = createUserDto;
+        await this.usersServer.create(username, password);
     }
 
     @Get()
     async findAll(): Promise<User[]> {
-        return this.userServer.findAll();
+        return this.usersServer.findAll();
     }
 
     @Get(':id')

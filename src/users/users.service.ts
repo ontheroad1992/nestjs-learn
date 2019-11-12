@@ -1,35 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { User, UserValidateResult } from './interfaces/user.interfaces';
 import { UserException } from './users.exception';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Users } from './users.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
     private readonly users: User[] = [];
 
-    constructor() {
-        this.users = [
-            {
-                user_id: 1,
-                username: 'john',
-                password: 'changeme',
-            },
-            {
-                user_id: 2,
-                username: 'chris',
-                password: 'secret',
-            },
-            {
-                user_id: 3,
-                username: '17612732670',
-                password: '123456',
-            },
-            {
-                user_id: 4,
-                username: 'pengshba',
-                password: '123456',
-            },
-        ];
-    }
+    constructor(
+        @InjectRepository(Users)
+        private readonly usersRepository: Repository<Users>,
+    ) {}
 
     /**
      * 校验用户是否正确
@@ -49,8 +32,11 @@ export class UsersService {
         return this.users.find(user => user.username === username);
     }
 
-    public create(user: any) {
-        this.users.push(user);
+    public async create(username: string, password: string): Promise<any> {
+        const users = new Users();
+        users.username = username;
+        users.password = password;
+        await this.usersRepository.save(users);
     }
 
     public async findAll(): Promise<User[]> {

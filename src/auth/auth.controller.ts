@@ -3,7 +3,6 @@ import { AuthService } from './auth.service';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { Roles } from 'src/core/decorator/roles.decorator';
 import { ApiUseTags, ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { Request } from 'express';
 import { TokenResult } from './interfaces/login.interfaces';
 
 @ApiUseTags('auth')
