@@ -3,12 +3,9 @@ import { SelfError } from '../core/exception/self-error.interface';
 
 export class UserException extends HttpException {
     constructor(
-        userError: SelfError = {
-            code: 20000,
-            message: '用户操作异常',
-        },
+        { code = 20000, message = '用户模块错误' }: SelfError = {},
         status: number = HttpStatus.BAD_REQUEST,
     ) {
-        super(userError, status);
+        super({ code, message }, status);
     }
 }

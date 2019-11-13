@@ -6,7 +6,7 @@ export interface Login {
 }
 
 export interface TokenResult {
-    readonly user_id: number;
+    readonly uuid: number;
     readonly username: string;
     readonly access_token: string;
     readonly refresh_token?: string;

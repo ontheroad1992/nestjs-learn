@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, PrimaryColumn, Generated } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, PrimaryColumn, Generated, VersionColumn } from 'typeorm';
 
 @Entity()
 export class Users {
@@ -25,22 +25,19 @@ export class Users {
     })
     nickname?: string;
 
-    @Column('varchar', {
-        length: 20,
-        default: 'user',
+    @Column('simple-array', {
         comment: '用户角色',
     })
-    role?: string;
+    role?: string[];
 
     @Column('varchar', {
         comment: '用户密码',
-        select: false,
     })
     password: string;
 
     @CreateDateColumn({ name: 'create_time' })
-    createTime: Date;
+    createTime?: Date;
 
     @UpdateDateColumn({ name: 'update_time' })
-    updateTime: Date;
+    updateTime?: Date;
 }

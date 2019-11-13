@@ -17,7 +17,8 @@ export class AuthController {
         description: '登录的账户令牌和刷新令牌，以及一些其他参数',
     })
     async login(@Body() loginAuthDto: LoginAuthDto): Promise<TokenResult> {
-        const data = await this.authServer.login(loginAuthDto);
+        const { username, password } = loginAuthDto;
+        const data = await this.authServer.login(username, password);
         return data;
     }
 }

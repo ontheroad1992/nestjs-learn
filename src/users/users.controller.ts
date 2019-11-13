@@ -1,7 +1,6 @@
 import { Controller, Post, Body, Get, HttpCode, Param, ParseIntPipe } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
-import { User } from './interfaces/user.interfaces';
 import { ApiUseTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { FindUserDto } from './dto/find-user.dto';
 
