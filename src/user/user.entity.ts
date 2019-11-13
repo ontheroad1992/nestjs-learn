@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 import { Exclude } from 'class-transformer';
 
 @Entity()
-export class Users {
+export class User {
     @Exclude()
     @PrimaryGeneratedColumn()
     id: number;
@@ -45,7 +45,7 @@ export class Users {
     @UpdateDateColumn({ name: 'update_time' })
     updateTime?: Date;
 
-    constructor(partial?: Partial<Users>) {
+    constructor(partial?: Partial<User>) {
         Object.assign(this, partial);
     }
 }

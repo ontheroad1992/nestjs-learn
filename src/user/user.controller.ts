@@ -1,14 +1,14 @@
 import { Controller, Post, Body, HttpCode, Req, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UsersService } from './users.service';
+import { UserService } from './user.service';
 import { ApiUseTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { CheckUserDto } from './dto/check-user.dto';
 import { Roles } from '../core/decorator/roles.decorator';
 
-@ApiUseTags('users')
-@Controller('users')
-export class UsersController {
-    constructor(private readonly usersServer: UsersService) {}
+@ApiUseTags('user')
+@Controller('user')
+export class UserController {
+    constructor(private readonly userServer: UserService) {}
 
     @Post('register')
     @HttpCode(201)
@@ -19,7 +19,7 @@ export class UsersController {
     })
     create(@Body() createUserDto: CreateUserDto) {
         const { username, password } = createUserDto;
-        return this.usersServer.create(username, password);
+        return this.userServer.create(username, password);
     }
 
     @UseInterceptors(ClassSerializerInterceptor)
@@ -33,7 +33,7 @@ export class UsersController {
     })
     find(@Req() req) {
         const { uuid } = req.user;
-        return this.usersServer.findUserFromUUid(uuid);
+        return this.userServer.findUserFromUUid(uuid);
     }
 
     @Post('check')
@@ -45,6 +45,6 @@ export class UsersController {
     })
     check(@Body() checkUserDto: CheckUserDto) {
         const username = checkUserDto.username;
-        return this.usersServer.checkUserFromUsername(username);
+        return this.userServer.checkUserFromUsername(username);
     }
 }

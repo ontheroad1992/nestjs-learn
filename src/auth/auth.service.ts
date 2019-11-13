@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Login, TokenResult } from './interfaces/login.interfaces';
-import { UsersService } from '../users/users.service';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AuthService {
-    constructor(private readonly userService: UsersService, private readonly jwtService: JwtService) {}
+    constructor(private readonly userServer: UserService, private readonly jwtService: JwtService) {}
 
     /**
      * 用户登录
@@ -13,7 +13,7 @@ export class AuthService {
      * @param password string
      */
     async login(username: string, password: string): Promise<TokenResult> {
-        const { uuid, roles } = await this.userService.validateUser(username, password);
+        const { uuid, roles } = await this.userServer.validateUser(username, password);
         const payload = { username, uuid, roles };
         return {
             username,

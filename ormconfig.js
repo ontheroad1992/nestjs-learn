@@ -14,7 +14,7 @@ module.exports = {
     // 要加载并用于此连接的实体
     entities: ['dist/**/*.entity{.ts,.js}'],
     // 表名统一前缀
-    entityPrefix: 'gh_',
+    entityPrefix: 'test_',
     // 自动创建数据库，注意会自动清除之前创建好的数据
     synchronize: true,
     // 开启日志
