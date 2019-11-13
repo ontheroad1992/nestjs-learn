@@ -13,8 +13,8 @@ export class AuthService {
      * @param password string
      */
     async login(username: string, password: string): Promise<TokenResult> {
-        const { uuid, role } = await this.userService.validateUser(username, password);
-        const payload = { username, uuid, role };
+        const { uuid, roles } = await this.userService.validateUser(username, password);
+        const payload = { username, uuid, roles };
         return {
             username,
             uuid,

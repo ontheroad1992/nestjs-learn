@@ -1,34 +1,50 @@
-import { Controller, Post, Body, Get, HttpCode, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, Req, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
-import { ApiUseTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { FindUserDto } from './dto/find-user.dto';
+import { ApiUseTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { CheckUserDto } from './dto/check-user.dto';
+import { Roles } from '../core/decorator/roles.decorator';
 
 @ApiUseTags('users')
 @Controller('users')
 export class UsersController {
     constructor(private readonly usersServer: UsersService) {}
 
-    @Post()
+    @Post('register')
     @HttpCode(201)
     @ApiOperation({ title: '用户注册' })
     @ApiResponse({
         status: 201,
         description: '',
     })
-    async create(@Body() createUserDto: CreateUserDto) {
+    create(@Body() createUserDto: CreateUserDto) {
         const { username, password } = createUserDto;
-        await this.usersServer.create(username, password);
+        return this.usersServer.create(username, password);
     }
 
-    @Post('/check')
-    @ApiOperation({ title: '检查用户是否被注册过' })
+    @UseInterceptors(ClassSerializerInterceptor)
+    @Post('find')
+    @Roles('user')
+    @ApiBearerAuth()
+    @ApiOperation({ title: '获取用户信息' })
     @ApiResponse({
-        status: 200,
+        status: 201,
         description: '',
     })
-    check(@Body() findUserDto: FindUserDto) {
-        const username = findUserDto.username;
-        return this.usersServer.findUserFromUsername(username);
+    find(@Req() req) {
+        const { uuid } = req.user;
+        return this.usersServer.findUserFromUUid(uuid);
+    }
+
+    @Post('check')
+    @HttpCode(201)
+    @ApiOperation({ title: '检查用户是否被注册过' })
+    @ApiResponse({
+        status: 201,
+        description: '',
+    })
+    check(@Body() checkUserDto: CheckUserDto) {
+        const username = checkUserDto.username;
+        return this.usersServer.checkUserFromUsername(username);
     }
 }

@@ -1,7 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, PrimaryColumn, Generated, VersionColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Generated, VersionColumn } from 'typeorm';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class Users {
+    @Exclude()
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -28,8 +30,9 @@ export class Users {
     @Column('simple-array', {
         comment: '用户角色',
     })
-    role?: string[];
+    roles?: string[];
 
+    @Exclude()
     @Column('varchar', {
         comment: '用户密码',
     })
@@ -38,6 +41,11 @@ export class Users {
     @CreateDateColumn({ name: 'create_time' })
     createTime?: Date;
 
+    @Exclude()
     @UpdateDateColumn({ name: 'update_time' })
     updateTime?: Date;
+
+    constructor(partial?: Partial<Users>) {
+        Object.assign(this, partial);
+    }
 }
