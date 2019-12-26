@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Generated, VersionColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Generated } from 'typeorm';
 import { Exclude } from 'class-transformer';
 
 @Entity()
@@ -11,7 +11,7 @@ export class User {
         comment: '用户uuid',
     })
     @Generated('uuid')
-    uuid: number;
+    uuid: string;
 
     @Column('varchar', {
         length: 40,
